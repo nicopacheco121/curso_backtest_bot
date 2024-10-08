@@ -1,0 +1,9 @@
+BOT_TOKEN = ''
+CHAT_ID_LIST = ['']
+
+
+API_KEY = ''
+API_SECRET = ''
+PASSPHRASE = ''
+
+
