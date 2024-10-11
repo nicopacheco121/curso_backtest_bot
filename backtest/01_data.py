@@ -136,7 +136,7 @@ def work_list_binance(list_data):
     """
     df = pd.DataFrame(list_data)
     df.drop([6, 9, 10, 11], axis=1, inplace=True)
-    df.columns = ['time', 'o', 'h', 'l', 'c', 'v', 'v_q', 'n']
+    df.columns = ['time', 'open', 'high', 'low', 'close', 'volume', 'v_q', 'n']
     return df
 
 
@@ -211,10 +211,12 @@ def download_data(ticker, frequency, date_init: str, date_fin: str, api='SPOT', 
     # index to datetime
     df.index = pd.to_datetime(df.index, unit='ms')
 
+    df = df.astype(float)
+
     return df, bad_requests
 
 
-def test_data(symbol: str, tf: str, directory: str = 'data') -> List[List[str]]:
+def test_data(df, tf: str) -> List[List[str]]:
     frecuencias = {
         '1m': '1min',
         '5m': '5min',
@@ -224,27 +226,6 @@ def test_data(symbol: str, tf: str, directory: str = 'data') -> List[List[str]]:
         '1d': 'd',
         '1w': 'W'
     }
-
-    file = f'{directory}/{symbol}_{tf}.feather'
-    try:
-        df = pd.read_feather(file).sort_index()
-        df.index = pd.to_datetime(df.index, utc=True)  # Ensure index is datetime and UTC
-    except FileNotFoundError:
-        print(f"Error: File {file} not found.")
-        return []
-    except Exception as e:
-        print(f"Error reading file: {e}")
-        return []
-
-    # cortar la data desde 2020
-    df = df.loc['2020':]
-
-    # Adjust the start date to the beginning of the week
-    start_date = df.index.min()
-    if tf == '1w':
-        return check_weekly_data(df)
-    else:
-        return check_other_timeframes(df, tf, frecuencias[tf])
 
     rango_completo = pd.date_range(start=start_date, end=df.index.max(), freq=frecuencias[tf])  # Create a complete date range
     fechas_faltantes = rango_completo.difference(df.index)
@@ -318,20 +299,33 @@ def format_date_ranges(rangos_faltantes: List[Tuple[pd.Timestamp, pd.Timestamp]]
 if __name__ == '__main__':
     symbol = 'BTCUSDT'
     interval = '1h'
-    # # interval = '1w'
+    # interval = '1w'
 
     """ DATA RECIENTE """
     # data = get_data_binance(symbol=symbol, interval=interval)
     # print(data)
 
     """ DATA HISTORICA """
-    # start_time = time.time()
-    # data = download_data(symbol, interval, date_init='2017-01-01', date_fin='2024-10-13', api='SPOT')
-    # df = data[0]
-    # bad_requests = data[1]
-    # print(df)
-    # df.to_feather(f'data/{symbol}_{interval}.feather')  # Save the data to a feather file for faster loading
-    # print(f"--- {time.time() - start_time:.2f} seconds ---")
+    start_time = time.time()
+    data = download_data(symbol, interval, date_init='2017-01-01', date_fin='2024-10-13', api='SPOT')
+    df = data[0]
+    bad_requests = data[1]
+    print(df)
+    df.to_feather(f'data/{symbol}_{interval}.feather')  # Save the data to a feather file for faster loading
+    print(f"--- {time.time() - start_time:.2f} seconds ---")
 
     """ TEST DE DATA COMPLETA """
-    test_data(symbol, interval)
+    # directory = 'data'
+    # file = f'{directory}/{symbol}_{interval}.feather'
+    # try:
+    #     df = pd.read_feather(file).sort_index()
+    #     df.index = pd.to_datetime(df.index, utc=True)  # Ensure index is datetime and UTC
+    # except FileNotFoundError:
+    #     print(f"Error: File {file} not found.")
+    # except Exception as e:
+    #     print(f"Error reading file: {e}")
+    #
+    # # cortar la data desde 2020
+    # df = df.loc['2020':]
+    #
+    # test_data(df, interval)
