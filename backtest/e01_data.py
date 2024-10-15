@@ -5,6 +5,7 @@ import threading
 import datetime as dt
 from math import ceil
 import numpy as np
+
 from config import URL_PERP, URL_SPOT, PATH_PERP, PATH_SPOT, TIMEFRAME
 from typing import List, Tuple
 # Increase the number of columns displayed in pandas
@@ -227,6 +228,8 @@ def test_data(df, tf: str) -> List[List[str]]:
         '1w': 'W'
     }
 
+    start_date = df.index.min()
+
     rango_completo = pd.date_range(start=start_date, end=df.index.max(), freq=frecuencias[tf])  # Create a complete date range
     fechas_faltantes = rango_completo.difference(df.index)
 
@@ -297,35 +300,36 @@ def format_date_ranges(rangos_faltantes: List[Tuple[pd.Timestamp, pd.Timestamp]]
 
 
 if __name__ == '__main__':
-    symbol = 'BTCUSDT'
-    interval = '1h'
-    # interval = '1w'
+    symbol = 'ETHUSDT'
+    # interval = '1h'
+    interval = '1w'
 
     """ DATA RECIENTE """
     # data = get_data_binance(symbol=symbol, interval=interval)
     # print(data)
 
     """ DATA HISTORICA """
-    start_time = time.time()
-    data = download_data(symbol, interval, date_init='2017-01-01', date_fin='2024-10-13', api='SPOT')
-    df = data[0]
-    bad_requests = data[1]
-    print(df)
-    df.to_feather(f'data/{symbol}_{interval}.feather')  # Save the data to a feather file for faster loading
-    print(f"--- {time.time() - start_time:.2f} seconds ---")
+    # start_time = time.time()
+    # data = download_data(symbol, interval, date_init='2017-01-01', date_fin='2024-10-20', api='SPOT')
+    # df = data[0]
+    # bad_requests = data[1]
+    # print(df)
+    # df.to_feather(f'data/{symbol}_{interval}.feather')  # Save the data to a feather file for faster loading
+    # print(f"--- {time.time() - start_time:.2f} seconds ---")
 
     """ TEST DE DATA COMPLETA """
-    # directory = 'data'
-    # file = f'{directory}/{symbol}_{interval}.feather'
-    # try:
-    #     df = pd.read_feather(file).sort_index()
-    #     df.index = pd.to_datetime(df.index, utc=True)  # Ensure index is datetime and UTC
-    # except FileNotFoundError:
-    #     print(f"Error: File {file} not found.")
-    # except Exception as e:
-    #     print(f"Error reading file: {e}")
-    #
-    # # cortar la data desde 2020
-    # df = df.loc['2020':]
-    #
-    # test_data(df, interval)
+    directory = 'data'
+    file = f'{directory}/{symbol}_{interval}.feather'
+    try:
+        df = pd.read_feather(file).sort_index()
+        df.index = pd.to_datetime(df.index, utc=True)  # Ensure index is datetime and UTC
+    except FileNotFoundError:
+        print(f"Error: File {file} not found.")
+    except Exception as e:
+        print(f"Error reading file: {e}")
+
+    # cortar la data desde 2020
+    df = df.loc['2020':]
+
+    check_weekly_data(df)
+    # check_other_timeframes(df, '1h', '1h')

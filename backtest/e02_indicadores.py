@@ -79,6 +79,24 @@ def add_adx_to_data(df_week, df_hour):
     return df_hour
 
 
+def adx_strategy(df_week, df_hour):
+    """
+    Agrego el df_week al df_hourly
+    :param df_week:
+    :param df:
+    :return:
+    """
+
+    df_hour = df_hour.copy()
+    df_week = df_week.copy()
+
+    df_week['ADX'] = get_adx(df_week)  # Add the ADX to the weekly data
+
+    df_hour = add_adx_to_data(df_week, df_hour)  # Add the ADX to the hourly data
+
+    return df_hour
+
+
 if __name__ == '__main__':
     """ 
     Vamos a agregar el ADX a la data semanal, y luego lo vamos a agregar a la data horaria.
