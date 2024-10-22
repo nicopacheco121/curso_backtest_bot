@@ -1,5 +1,6 @@
 
 def asdfasdf():
+    x = 1
     pass
 
 
