@@ -48,7 +48,7 @@ if __name__ == '__main__':
         5. Inicia una conversación con tu nuevo bot y envía el comando /start
         
     Para obtener tu chat_id:
-        1. Busca el bot @userinfobot en Telegram
+        1. Busca el bot @getidsbot en Telegram
         2. Inicia una conversación y envía cualquier mensaje
         3. El bot te responderá con tu información, incluyendo tu chat_id
         
@@ -56,6 +56,6 @@ if __name__ == '__main__':
     """
 
     # Ejemplo de cómo usar la función
-    from keys import BOT_TOKEN, CHAT_ID_LIST
+    from keys_no_commit import BOT_TOKEN, CHAT_ID_LIST
 
-    send_telegram_message(BOT_TOKEN, 'Long BTC', CHAT_ID_LIST)
+    send_telegram_message(BOT_TOKEN, 'Long AL30', CHAT_ID_LIST)

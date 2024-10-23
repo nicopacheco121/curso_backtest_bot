@@ -1,5 +1,5 @@
 BOT_TOKEN = ''
-CHAT_ID_LIST = ['']
+CHAT_ID_LIST = []
 
 
 API_KEY = ''

@@ -150,15 +150,15 @@ if __name__ == '__main__':
     import config
 
     try:
-        gogole_sheet = get_google_sheet(config.FILE_JSON, config.FILE_SHEET)  # Obtener el objeto Google Sheet
+        google_sheet_bot = get_google_sheet(config.FILE_JSON, config.FILE_SHEET)  # Obtener el objeto Google Sheet
 
         """ PARAMETROS """
         # Leer y mostrar los parámetros
-        sheet_parametros = get_sheet(gogole_sheet, config.HOJA_PARAMETROS)
+        sheet_parametros = get_sheet(google_sheet_bot, config.HOJA_PARAMETROS)
         pprint.pprint(sheet_parametros.get_all_records())
 
         # O tambien lo hacemos con la funcion que hicimos para ello
-        sheet_parametros = read_all_sheet(gogole_sheet, config.HOJA_PARAMETROS)
+        sheet_parametros = read_all_sheet(google_sheet_bot, config.HOJA_PARAMETROS)
         pprint.pprint(sheet_parametros)
 
         """ POSICIONES
@@ -177,7 +177,7 @@ if __name__ == '__main__':
             'take_profit': 61000,
             'ticker': 'BTC-USDT-SWAP'
         }
-        add_position(gogole_sheet, data, config.HOJA_POSICIONES)
+        add_position(google_sheet_bot, data, config.HOJA_POSICIONES)
 
         # Escribimos otra posicion ejemplo de ETH
         data = {
@@ -193,16 +193,16 @@ if __name__ == '__main__':
             'take_profit': 3300,
             'ticker': 'ETH-USDT-SWAP'
         }
-        add_position(gogole_sheet, data, config.HOJA_POSICIONES)
+        add_position(google_sheet_bot, data, config.HOJA_POSICIONES)
 
         # # Escribimos en la hoja de testeo
-        # sheet_testeo = get_sheet(gogole_sheet, config.HOJA_TESTEO)
+        # sheet_testeo = get_sheet(google_sheet_bot, config.HOJA_TESTEO)
         # sheet_testeo.update(values=[['Testeo']], range_name='A1')
         # # otra forma
         # sheet_testeo.update_cell(row=2, col=1, value='Testeo')
 
         # Borramos la posicion de BTC
-        delete_position(gogole_sheet, 'BTC-USDT-SWAP', config.HOJA_POSICIONES)
+        delete_position(google_sheet_bot, 'BTC-USDT-SWAP', config.HOJA_POSICIONES)
 
         """ OPERACIONES 
         Si es de cierre, se suma el pnl        
@@ -220,7 +220,7 @@ if __name__ == '__main__':
             'side': 'long',
             'ticker': 'BTC-USDT-SWAP',
             'tipo': 'open'}
-        add_operation(gogole_sheet, open_operation, config.HOJA_OPERACIONES)
+        add_operation(google_sheet_bot, open_operation, config.HOJA_OPERACIONES)
 
         close_operation = {
             'avg_price': 60000,
@@ -235,7 +235,7 @@ if __name__ == '__main__':
             'side': 'long',
             'ticker': 'BTC-USDT-SWAP',
             'tipo': 'close'}
-        add_operation(gogole_sheet, close_operation, config.HOJA_OPERACIONES)
+        add_operation(google_sheet_bot, close_operation, config.HOJA_OPERACIONES)
 
     except Exception as e:
         print(f"Se produjo un error: {e}")

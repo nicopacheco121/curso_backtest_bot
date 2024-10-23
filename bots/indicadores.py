@@ -77,7 +77,7 @@ if __name__ == '__main__':
     from google_sheets import get_google_sheet, read_all_sheet
     from api_okx import get_account_md_api, get_account_api
     from functions import get_data_tickers, get_parametros
-    from keys import API_KEY, API_SECRET, PASSPHRASE
+    from keys_no_commit import API_KEY, API_SECRET, PASSPHRASE
 
     # Obtenemos el client_md
     client_md = get_account_md_api()

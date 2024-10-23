@@ -22,8 +22,6 @@ Lo que haremos con la api es:
 - Consultar una orden
 - Cerrar una posicion (enviar client_order_id)
 
-SORTEO !!!
-https://forms.gle/4YnsZbgeqEXYPRwYA
 
 """
 import time
@@ -39,7 +37,8 @@ import okx.MarketData as MarketData
 from okx.Trade import TradeAPI
 
 # Importar las claves de API desde un archivo separado por seguridad
-from keys import API_KEY, API_SECRET, PASSPHRASE
+# from keys import API_KEY, API_SECRET, PASSPHRASE
+from keys_no_commit import API_KEY, API_SECRET, PASSPHRASE
 
 
 # Configuración de la API
@@ -444,35 +443,35 @@ if __name__ == '__main__':
     account_trade_api = get_account_trade_api(API_KEY, API_SECRET, PASSPHRASE)
     client_md = get_account_md_api()
 
-    # """ BALANCE """
-    # balance = get_balance(account_api)
-    # print(balance)
-    #
-    # usdt = get_usdt_balance(account_api)
-    # print(usdt)
-    #
-    # """ POSICIONES ABIERTAS """
-    # instType = 'SWAP'  # SWAP es para futuros perpetuos, tambien puede ser SPOT, etc
-    # # previo abrir una posicion para ver algo
-    # posiciones = get_positions(account_api=account_api, instType=instType)
-    # print(posiciones)
-    #
-    # # Ver detalle en ejemplo_order.py
-    #
-    # dict_positions = get_positions_dict(account_api=account_api, instType=instType)
-    # pprint.pprint(dict_positions)
-    #
-    # """ DATA DE INSTRUMENTOS Y LEVERAGE """
-    # # Instruments
-    # tickers = ['BTC-USDT-SWAP', 'ETH-USDT-SWAP']
-    # instruments = get_data_instruments(account_api, tickers)
-    # print(instruments)
-    #
-    # # Setear leverage
-    # instId = 'BTC-USDT-SWAP'
-    # lever = 5
-    # print(set_leverage(account_api, instId, lever))
-    #
+    """ BALANCE """
+    balance = get_balance(account_api)
+    print(balance)
+
+    usdt = get_usdt_balance(account_api)
+    print(usdt)
+
+    """ POSICIONES ABIERTAS """
+    instType = 'SWAP'  # SWAP es para futuros perpetuos, tambien puede ser SPOT, etc
+    # previo abrir una posicion para ver algo
+    posiciones = get_positions(account_api=account_api, instType=instType)
+    print(posiciones)
+
+    # Ver detalle en ejemplo_order.py
+
+    dict_positions = get_positions_dict(account_api=account_api, instType=instType)
+    pprint.pprint(dict_positions)
+
+    """ DATA DE INSTRUMENTOS Y LEVERAGE """
+    # Instruments
+    tickers = ['BTC-USDT-SWAP', 'ETH-USDT-SWAP']
+    instruments = get_data_instruments(account_api, tickers)
+    print(instruments)
+
+    # Setear leverage
+    instId = 'BTC-USDT-SWAP'
+    lever = 5
+    print(set_leverage(account_api, instId, lever))
+
     """ PRECIOS """
     instId = "BTC-USDT-SWAP"
 
