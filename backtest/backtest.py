@@ -81,6 +81,17 @@ def run(**kwargs):
     resultados = stats(df_trades)
     resultados = resultados['annualized_return']
 
+    # rdto mas alto fue 100
+    # maxdd -20
+    # 0.8
+
+    pondero_rdo = resultados['annualized_return'] / 120
+    pondero_maxdd = resultados['max_drawdown'] / -20
+    pondero_winrate = resultados['winrate'] / 80
+
+    resultados = pondero_rdo * 0.8 + pondero_maxdd * 0.1 + pondero_winrate * 0.1
+
+
     print(resultados)
 
     return resultados
@@ -100,7 +111,8 @@ if __name__ == '__main__':
         'sl': 0.02,
         'tp': 0.05,
         'start_date': '2021-01-01',
-        'fee': 0.05 / 100
+        'fee': 0.05 / 100,
+        'excel': False
     }
 
     run(**parametros)
